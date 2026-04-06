@@ -2,6 +2,7 @@
 // 自动化脚本：利用报错反馈自动查找退回邮件，从当前地址作为新邮件发送
 // 作者：qzzhus
 // 日期：2026-03-09
+// 更新日期：2026-04-06
 //========================================================
 
 // 替换为转发至的邮箱地址
@@ -106,7 +107,15 @@ function fwdAsNew(msg){
   headerHtml += "</div><hr style=\"display:inline-block;width:98%\" class=\"\"><br><br>";
 
   // 新邮件内容
-  var newBody = headerHtml + originalBody;
+  // 格式化纯文本邮件（2026-04-06）
+  var isHtmlEmail = /<(br|div|p|html|body|table|span)/i.test(originalBody);
+  var formattedBody = "";
+  if (!isHtmlEmail) {
+    formattedBody = msg.getPlainBody().replace(/\r?\n/g, '<br>');
+  } else {
+    formattedBody = originalBody;
+  }
+  var newBody = headerHtml + formattedBody;
   
   // 作为新邮件发送
   // 回复至原发件人
@@ -120,7 +129,7 @@ function fwdAsNew(msg){
   });
 
   // 控制台通知
-  console.info("【发送成功】\n主题："+originalSubject+"\n发件人："+cleanSenderName+"\n原始发送时间:"+formattedDate)
+  console.info("【发送成功】\n主题："+originalSubject+"\n发件人："+cleanSenderName+"\n原始发送时间:"+formattedDate+"\n样式："+isHtmlEmail?"html":"plain")
 }
 
 
