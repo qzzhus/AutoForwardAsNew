@@ -129,7 +129,11 @@ function fwdAsNew(msg){
   });
 
   // 控制台通知
-  console.info("【发送成功】\n主题："+originalSubject+"\n发件人："+cleanSenderName+"\n原始发送时间:"+formattedDate+"\n样式："+isHtmlEmail?"html":"plain")
+  console.info(`【发送成功】
+主题：${originalSubject}
+发件人：${cleanSenderName}
+原始发送时间：${formattedDate}
+样式：${isHtmlEmail ? "html" : "plain"}`);
 }
 
 
